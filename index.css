@@ -1,0 +1,95 @@
+body {
+    background-color: #263238;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #4f5b62;
+}
+
+a {
+    color: white;
+}
+
+#container {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+}
+
+#rules {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
+    padding: 30px;
+    text-align: center;
+}
+
+#address {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 25px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-style: dashed;
+    border-color: white;
+    border-width: 2px;
+}
+
+.addressItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#copyAddress {
+    margin-left: 10px;
+    height: 30px;
+}
+
+#header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+#footer {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+#transactions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title {
+    align-self: flex-start;
+}

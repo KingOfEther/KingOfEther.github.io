@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+        <meta charset="utf-8">
+        <title>King Of Ether</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <img src="icon.png" width="50" height="50">
+                <h1 id="title">King Of Ether</h1>
+                <img src="icon.png" width="50" height="50">
+            </div>
+
+            <div id="rules">
+                <span>In order to be the king, you must send more ETH than the current king.</span>
+                <span>The ETH of the new king will then belong to the past king.</span>
+                <span>If no new king has claimed the throne after 10 days, the current king will lose its status.</span>
+            </div>
+
+            <div id="address">
+                <div class="addressItem">
+                    <span style="text-decoration: underline;">Contract address</span>
+                    <span style="text-decoration: underline;">Hex data</span>
+                </div>
+
+                <div class="addressItem">
+                    <span style="display: flex; align-items: center;"><span id="contractAddress"></span><button id="etherscan" style="margin-left: 15px;">Etherscan</button></span>
+                    <span id="hexData"></span>
+                </div>
+            </div>
+
+            <div id="transactions">
+                <table id="history">
+                    <tr>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Value (ETH)</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="footer">
+                <span>Contract source code is available on GitHub: <a href="https://github.com/KingOfEther/contract">https://github.com/KingOfEther/contract</a></span>
+                <span>Original game: <a href="https://www.kingoftheether.com">https://www.kingoftheether.com</a></span>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js" charset="utf-8"></script>
+        <script src="./index.js" charset="utf-8"></script>
+    </body>
+</html>
