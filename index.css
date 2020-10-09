@@ -63,6 +63,11 @@ a {
     justify-content: flex-start;
 }
 
+#status {
+    width: 50%;
+    padding: 30px;
+}
+
 #copyAddress {
     margin-left: 10px;
     height: 30px;

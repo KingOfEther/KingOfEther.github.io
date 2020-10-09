@@ -4,6 +4,7 @@ class KingOfEtherService {
         this.account = account
         this.contract = contract
         this.becomeRichestHex = this.contract.methods.becomeRichest().encodeABI()
+        this.withdrawHex = this.contract.methods.withdraw().encodeABI()
     }
 
     async history() {
@@ -29,30 +30,13 @@ class KingOfEtherService {
         return filtered
     }
 
-    async becomeRichest(weiValue, onHash) {
-        const tx = {
-            data: this.becomeRichestHex,
-            from: this.account.address,
-            to: this.contract.options.address,
-            gas: 2000000,
-            value: weiValue
-        }
-        const signedTx = await this.account.signTransaction(tx)
-        return this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-            .once('transactionHash', hash => {
-                if (onHash) {
-                    onHash(hash)
-                }
-            })
-    }
-
     async status() {
         const obj = {
             'richest': await this.contract.methods.richest().call(),
-            'ramainingTime': await this.contract.methods.remainingTime().call(),
+            'remainingTime': await this.contract.methods.remainingTime().call(),
             'mostSent': await this.contract.methods.mostSent().call()
         }
-        obj['canStartGame'] = obj['ramainingTime'] == 0
+        obj['canStartGame'] = obj['remainingTime'] == 0
         return obj
     }
 }
@@ -68,8 +52,20 @@ window.onload = () => {
     const service = new KingOfEtherService(web3, contract, null)
 
     document.getElementById('contractAddress').innerText = contractAddress
-    document.getElementById('hexData').innerText = service.becomeRichestHex
+    document.getElementById('hexDataDeposit').innerText = service.becomeRichestHex
+    document.getElementById('hexDataWithdraw').innerText = service.withdrawHex
     document.getElementById('etherscan').onclick = () => window.open(etherscan, '_blank')
+
+    service.status()
+        .then(result => {
+            let startGameString = 'The previous game ended. Start a new game by sending funds to the contract.'
+            let remainingTimeString = `Remaining time: ${result.remainingTime} min`
+            let string = result.canStartGame ? startGameString : remainingTimeString
+            document.getElementById('status').innerText = string
+        })
+        .catch(error => {
+            console.log(error);
+        })
 
     service.history()
         .then(history => {
