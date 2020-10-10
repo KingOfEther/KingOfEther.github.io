@@ -34,7 +34,10 @@ class KingOfEtherService {
         const obj = {
             'richest': await this.contract.methods.richest().call(),
             'remainingTime': await this.contract.methods.remainingTime().call(),
-            'mostSent': await this.contract.methods.mostSent().call()
+            'mostSent': await this.contract.methods.mostSent().call(),
+            'increasePercentage': await this.contract.methods.increasePercentage().call(),
+            'gameDuration': await this.contract.methods.gameDuration().call(),
+            'startingValue': await this.contract.methods.startingValue().call()
         }
         obj['canStartGame'] = obj['remainingTime'] == 0
         return obj
@@ -58,10 +61,13 @@ window.onload = () => {
 
     service.status()
         .then(result => {
-            let startGameString = 'The previous game ended. Start a new game by sending funds to the contract.'
+            const minValue = web3.utils.fromWei(result.startingValue, 'ether')
+            let startGameString = `The previous game has ended. Start a new game by sending at least <u>${minValue} ETH</u> to the contract.`
             let remainingTimeString = `Remaining time: ${result.remainingTime} min`
             let string = result.canStartGame ? startGameString : remainingTimeString
-            document.getElementById('status').innerText = string
+            document.getElementById('status').innerHTML = string
+            document.getElementById('increasePercentage').innerText = result.increasePercentage
+            document.getElementById('gameDuration').innerText = result.gameDuration
         })
         .catch(error => {
             console.log(error);

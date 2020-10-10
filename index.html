@@ -16,9 +16,9 @@
             </div>
 
             <div id="rules">
-                <span>In order to be the king, you must send more ETH than the current king.</span>
-                <span>The ETH of the new king will then belong to the past king.</span>
-                <span>If no new king has claimed the throne after 10 days, the current king will lose its status.</span>
+                <span>In order to be the king, you must send at leat <u><span id="increasePercentage">30</span>%</u> more ETH than the current king.</span>
+                <span>The ETH of the new king will then belong to the previous king.</span>
+                <span>If no new king has claimed the throne after <u><span id="gameDuration">10</span> days</u>, the current king will lose its status.</span>
             </div>
 
             <div id="address">
@@ -36,15 +36,15 @@
             </div>
 
             <div id="status">
-                <span id="status"></span>
+                <span id="status">Loading...</span>
             </div>
 
             <div id="transactions">
                 <table id="history">
                     <tr>
                         <th>Date</th>
-                        <th>From</th>
-                        <th>Value (ETH)</th>
+                        <th>King</th>
+                        <th>Wealth (ETH)</th>
                     </tr>
                 </table>
             </div>
