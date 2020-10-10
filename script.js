@@ -9,7 +9,7 @@ class KingOfEtherService {
 
     async history() {
         const key = '7D74BSWRSX3HGI7WJMD18V24D3WFH7HR5K'
-        const url = `https://ropsten.etherscan.io/api?module=account&action=txlist&address=${this.contract.options.address}&startblock=0&endblock=99999999&sort=asc&apikey=${key}`
+        const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${this.contract.options.address}&startblock=0&endblock=99999999&sort=asc&apikey=${key}`
         const response = await fetch(url)
         const json = await response.json()
         const transactions = await Promise.all(json.result.map(async tx => {
@@ -42,8 +42,8 @@ class KingOfEtherService {
 }
 
 window.onload = () => {
-    const infuraUrl = 'wss://ropsten.infura.io/ws/v3/b725b07e9e3c4a5296ff87bd4feb0abc'
-    const contractAddress = '0x40fe0d0Cc856Bd801a063E5a3054455e7BFdAF32'
+    const infuraUrl = 'wss://mainnet.infura.io/ws/v3/b725b07e9e3c4a5296ff87bd4feb0abc'
+    const contractAddress = '0xb22B8cE51848fbA8b3e134B994A587Ee0Ca278d6'
     const contractAbi = [{"inputs":[{"internalType":"uint256","name":"_gameDuration","type":"uint256"},{"internalType":"uint256","name":"_startingValue","type":"uint256"},{"internalType":"uint256","name":"_increasePercentage","type":"uint256"},{"internalType":"uint256","name":"_transactionFeePercentage","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"king","type":"address"},{"indexed":false,"internalType":"uint256","name":"money","type":"uint256"}],"name":"NewKing","type":"event"},{"inputs":[],"name":"amountWithdrawable","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"becomeRichest","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"gameDuration","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"increasePercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"mostSent","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"remainingTime","outputs":[{"internalType":"uint256","name":"time","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"richest","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"startingValue","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}]
     const etherscan = `https://ropsten.etherscan.io/address/${contractAddress}`
 
