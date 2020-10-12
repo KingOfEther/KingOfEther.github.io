@@ -81,13 +81,13 @@ window.onload = () => {
                     playBtn.innerText = 'Become the King !'
                     playBtn.className = 'play-btn'
                     playBtn.style = 'margin-left: 20px;'
-                    playBtn.onclick = () => {
+                    playBtn.onclick = async () => {
                         const transactionParameters = {
-                            gasPrice: web3.utils.toWei('50', 'gwei'),
-                            gas: 1000000,
+                            gasPrice: web3.utils.numberToHex(web3.utils.toWei('50', 'gwei')),
+                            gas: web3.utils.numberToHex(1000000),
                             to: contractAddress,
                             from: ethereum.selectedAddress,
-                            value: minPlayValue(web3, service),
+                            value: web3.utils.numberToHex(await minPlayValue(web3, service)),
                             data: service.becomeRichestHex
                         }
 
