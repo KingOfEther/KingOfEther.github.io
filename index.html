@@ -21,18 +21,24 @@
                 <span>If no new king has claimed the throne after <u><span id="gameDuration">10</span> days</u>, the current king will lose its status.</span>
             </div>
 
-            <div id="address">
-                <div class="addressItem" style="margin-right: 1.5em;">
-                    <span style="text-decoration: underline;">Contract address</span>
-                    <span style="text-decoration: underline;">Deposit data</span>
-                    <span style="text-decoration: underline;">Withdraw data</span>
+            <div id="play">
+                <div id="address">
+                    <div class="addressItem" style="margin-right: 1.5em;">
+                        <span style="text-decoration: underline;">Contract address</span>
+                        <span style="text-decoration: underline;">Deposit data</span>
+                        <span style="text-decoration: underline;">Withdraw data</span>
+                    </div>
+
+                    <div class="addressItem">
+                        <span style="display: flex; align-items: center;"><span id="contractAddress"></span><button id="etherscan" style="margin-left: 15px;">Etherscan</button></span>
+                        <span id="hexDataDeposit"></span>
+                        <span id="hexDataWithdraw"></span>
+                    </div>
                 </div>
 
-                <div class="addressItem">
-                    <span style="display: flex; align-items: center;"><span id="contractAddress"></span><button id="etherscan" style="margin-left: 15px;">Etherscan</button></span>
-                    <span id="hexDataDeposit"></span>
-                    <span id="hexDataWithdraw"></span>
-                </div>
+                <span style="margin-bottom: 30px; margin-top: 30px;"><b><u>OR</u></b></span>
+
+                <div id="metamask"></div>
             </div>
 
             <div id="status">

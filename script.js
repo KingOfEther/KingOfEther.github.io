@@ -44,6 +44,15 @@ class KingOfEtherService {
     }
 }
 
+const minPlayValue = async (web3, service) => {
+    const status = await service.status()
+    if (status.canStartGame) {
+        return status.startingValue
+    } else {
+        return status.mostSent * (1 + status.increasePercentage / 100)
+    }
+}
+
 window.onload = () => {
     const infuraUrl = 'wss://mainnet.infura.io/ws/v3/b725b07e9e3c4a5296ff87bd4feb0abc'
     const contractAddress = '0xa8B0d256466248b6E39F03d03Ec1D3815457C5A5'
@@ -58,6 +67,42 @@ window.onload = () => {
     document.getElementById('hexDataDeposit').innerText = service.becomeRichestHex
     document.getElementById('hexDataWithdraw').innerText = service.withdrawHex
     document.getElementById('etherscan').onclick = () => window.open(etherscan, '_blank')
+
+    if (typeof window.ethereum !== 'undefined') {
+        const ethereum = window.ethereum
+        let div = document.getElementById('metamask')
+        let btn = document.createElement('button')
+        btn.innerText = 'Connect with MetaMask'
+        btn.className = 'metamask-btn'
+        btn.onclick = () => {
+            ethereum.request({ method: 'eth_requestAccounts' })
+                .then(accounts => {
+                    let playBtn = document.createElement('button')
+                    playBtn.innerText = 'Become the King !'
+                    playBtn.className = 'play-btn'
+                    playBtn.style = 'margin-left: 20px;'
+                    playBtn.onclick = () => {
+                        const transactionParameters = {
+                            gasPrice: web3.utils.toWei('50', 'gwei'),
+                            gas: 1000000,
+                            to: contractAddress,
+                            from: ethereum.selectedAddress,
+                            value: minPlayValue(web3, service),
+                            data: service.becomeRichestHex
+                        }
+
+                        ethereum.request({
+                            method: 'eth_sendTransaction',
+                            params: [transactionParameters]
+                        }).then(txHash => {
+                            console.log(txHash)
+                        })
+                    }
+                    div.appendChild(playBtn)
+                })
+        }
+        div.appendChild(btn)
+    }
 
     service.status()
         .then(result => {
