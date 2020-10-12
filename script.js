@@ -30,6 +30,10 @@ class KingOfEtherService {
         return filtered
     }
 
+    async amountWithdrawable() {
+        return await this.contract.methods.amountWithdrawable().call()
+    }
+
     async status() {
         const obj = {
             'richest': await this.contract.methods.richest().call(),
@@ -51,6 +55,18 @@ const minPlayValue = async (web3, service) => {
     } else {
         return status.mostSent * (1 + status.increasePercentage / 100)
     }
+}
+
+const showTransactionHash = hash => {
+    let span = document.getElementById('tx-hash')
+    span.style = 'margin-top: 30px;'
+    span.innerText = `Hash: ${hash}`
+}
+
+const showTransactionError = error => {
+    let span = document.getElementById('tx-hash')
+    span.style = 'color: #ff7043; margin-top: 30px;'
+    span.innerText = error
 }
 
 window.onload = () => {
@@ -76,7 +92,9 @@ window.onload = () => {
         btn.className = 'metamask-btn'
         btn.onclick = () => {
             ethereum.request({ method: 'eth_requestAccounts' })
-                .then(accounts => {
+                .then(async accounts => {
+                    web3.eth.defaultAccount = ethereum.selectedAddress
+
                     let playBtn = document.createElement('button')
                     playBtn.innerText = 'Become the King !'
                     playBtn.className = 'play-btn'
@@ -94,11 +112,41 @@ window.onload = () => {
                         ethereum.request({
                             method: 'eth_sendTransaction',
                             params: [transactionParameters]
-                        }).then(txHash => {
-                            console.log(txHash)
+                        }).then(hash => {
+                            showTransactionHash(hash)
+                        }).catch(error => {
+                            showTransactionError(error.message)
                         })
                     }
                     div.appendChild(playBtn)
+
+                    const wei = await service.amountWithdrawable()
+                    const amount = web3.utils.fromWei(String(wei), 'ether')
+                    if (amount > 0) {
+                        let withdrawBtn = document.createElement('button')
+                        withdrawBtn.innerText = `Withdraw wealth: ${amount} ETH`
+                        withdrawBtn.className = 'withdraw-btn'
+                        withdrawBtn.style = 'margin-left: 20px;'
+                        withdrawBtn.onclick = () => {
+                            const transactionParameters = {
+                                gasPrice: web3.utils.numberToHex(web3.utils.toWei('50', 'gwei')),
+                                gas: web3.utils.numberToHex(1000000),
+                                to: contractAddress,
+                                from: ethereum.selectedAddress,
+                                data: service.withdrawHex
+                            }
+
+                            ethereum.request({
+                                method: 'eth_sendTransaction',
+                                params: [transactionParameters]
+                            }).then(hash => {
+                                showTransactionHash(hash)
+                            }).catch(error => {
+                                showTransactionError(error.message)
+                            })
+                        }
+                        div.appendChild(withdrawBtn)
+                    }
                 })
         }
         div.appendChild(btn)
@@ -106,7 +154,7 @@ window.onload = () => {
 
     service.status()
         .then(result => {
-            const minValue = web3.utils.fromWei(result.startingValue, 'ether')
+            const minValue = web3.utils.fromWei(String(result.startingValue), 'ether')
             let startGameString = `The previous game has ended. Start a new game by sending at least <u>${minValue} ETH</u> to the contract.`
             let remainingTimeString = `Remaining time: ${result.remainingTime} min`
             let string = result.canStartGame ? startGameString : remainingTimeString
