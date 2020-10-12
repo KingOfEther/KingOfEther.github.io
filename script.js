@@ -58,13 +58,13 @@ const minPlayValue = async (web3, service) => {
 }
 
 const showTransactionHash = hash => {
-    let span = document.getElementById('tx-hash')
+    let span = document.getElementById('txHash')
     span.style = 'margin-top: 30px;'
     span.innerText = `Hash: ${hash}`
 }
 
 const showTransactionError = error => {
-    let span = document.getElementById('tx-hash')
+    let span = document.getElementById('txHash')
     span.style = 'color: #ff7043; margin-top: 30px;'
     span.innerText = error
 }
@@ -84,13 +84,12 @@ window.onload = () => {
     document.getElementById('hexDataWithdraw').innerText = service.withdrawHex
     document.getElementById('etherscan').onclick = () => window.open(etherscan, '_blank')
 
+    const connectMetaMask = document.getElementById('connectMetaMask')
+
     if (typeof window.ethereum !== 'undefined') {
         const ethereum = window.ethereum
         let div = document.getElementById('metamask')
-        let btn = document.createElement('button')
-        btn.innerText = 'Connect with MetaMask'
-        btn.className = 'metamask-btn'
-        btn.onclick = () => {
+        connectMetaMask.onclick = () => {
             ethereum.request({ method: 'eth_requestAccounts' })
                 .then(async accounts => {
                     web3.eth.defaultAccount = ethereum.selectedAddress
@@ -149,7 +148,9 @@ window.onload = () => {
                     }
                 })
         }
-        div.appendChild(btn)
+    } else {
+        connectMetaMask.disabled = true;
+        connectMetaMask.style = "background-color: #9e9e9e; color: #cfcfcf;"
     }
 
     service.status()
