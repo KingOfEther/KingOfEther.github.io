@@ -88,7 +88,10 @@ window.onload = () => {
 
     if (typeof window.ethereum !== 'undefined') {
         const ethereum = window.ethereum
+        
         let div = document.getElementById('metamask')
+
+        connectMetaMask.style = "background-color: #ff6f00; color: white;"
         connectMetaMask.onclick = () => {
             ethereum.request({ method: 'eth_requestAccounts' })
                 .then(async accounts => {
@@ -150,7 +153,6 @@ window.onload = () => {
         }
     } else {
         connectMetaMask.disabled = true;
-        connectMetaMask.style = "background-color: #9e9e9e; color: #cfcfcf;"
     }
 
     service.status()
