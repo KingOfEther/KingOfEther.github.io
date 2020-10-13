@@ -71,7 +71,7 @@ const showTransactionError = error => {
 
 window.onload = () => {
     const infuraUrl = 'wss://mainnet.infura.io/ws/v3/b725b07e9e3c4a5296ff87bd4feb0abc'
-    const contractAddress = '0xa8B0d256466248b6E39F03d03Ec1D3815457C5A5'
+    const contractAddress = '0xF0cEdEbC8E479A7F77FBE44c30834F5ACAa612E6'
     const contractAbi = [{"inputs":[{"internalType":"uint256","name":"_gameDuration","type":"uint256"},{"internalType":"uint256","name":"_startingValue","type":"uint256"},{"internalType":"uint256","name":"_increasePercentage","type":"uint256"},{"internalType":"uint256","name":"_transactionFeePercentage","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"king","type":"address"},{"indexed":false,"internalType":"uint256","name":"money","type":"uint256"}],"name":"NewKing","type":"event"},{"inputs":[],"name":"amountWithdrawable","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"becomeRichest","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"gameDuration","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"increasePercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"mostSent","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"remainingTime","outputs":[{"internalType":"uint256","name":"time","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"richest","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"startingValue","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}]
     const etherscan = `https://etherscan.io/address/${contractAddress}`
 
@@ -88,7 +88,7 @@ window.onload = () => {
 
     if (typeof window.ethereum !== 'undefined') {
         const ethereum = window.ethereum
-        
+
         let div = document.getElementById('metamask')
 
         connectMetaMask.style = "background-color: #ff6f00; color: white;"
