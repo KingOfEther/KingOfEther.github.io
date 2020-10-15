@@ -90,6 +90,7 @@ window.onload = () => {
         const ethereum = window.ethereum
 
         let div = document.getElementById('metamask')
+        let playBtnShown = false;
 
         connectMetaMask.style = "background-color: #ff6f00; color: white;"
         connectMetaMask.onclick = () => {
@@ -97,45 +98,19 @@ window.onload = () => {
                 .then(async accounts => {
                     web3.eth.defaultAccount = ethereum.selectedAddress
 
-                    let playBtn = document.createElement('button')
-                    playBtn.innerText = 'Become the King !'
-                    playBtn.className = 'play-btn'
-                    playBtn.style = 'margin-left: 20px;'
-                    playBtn.onclick = async () => {
-                        const transactionParameters = {
-                            gasPrice: web3.utils.numberToHex(web3.utils.toWei('50', 'gwei')),
-                            gas: web3.utils.numberToHex(1000000),
-                            to: contractAddress,
-                            from: ethereum.selectedAddress,
-                            value: web3.utils.numberToHex(await minPlayValue(web3, service)),
-                            data: service.becomeRichestHex
-                        }
-
-                        ethereum.request({
-                            method: 'eth_sendTransaction',
-                            params: [transactionParameters]
-                        }).then(hash => {
-                            showTransactionHash(hash)
-                        }).catch(error => {
-                            showTransactionError(error.message)
-                        })
-                    }
-                    div.appendChild(playBtn)
-
-                    const wei = await service.amountWithdrawable()
-                    const amount = web3.utils.fromWei(String(wei), 'ether')
-                    if (amount > 0) {
-                        let withdrawBtn = document.createElement('button')
-                        withdrawBtn.innerText = `Withdraw wealth: ${amount} ETH`
-                        withdrawBtn.className = 'withdraw-btn'
-                        withdrawBtn.style = 'margin-left: 20px;'
-                        withdrawBtn.onclick = () => {
+                    if (!playBtnShown) {
+                        let playBtn = document.createElement('button')
+                        playBtn.innerText = 'Become the King !'
+                        playBtn.className = 'play-btn'
+                        playBtn.style = 'margin-left: 20px;'
+                        playBtn.onclick = async () => {
                             const transactionParameters = {
                                 gasPrice: web3.utils.numberToHex(web3.utils.toWei('50', 'gwei')),
                                 gas: web3.utils.numberToHex(1000000),
                                 to: contractAddress,
                                 from: ethereum.selectedAddress,
-                                data: service.withdrawHex
+                                value: web3.utils.numberToHex(await minPlayValue(web3, service)),
+                                data: service.becomeRichestHex
                             }
 
                             ethereum.request({
@@ -147,7 +122,36 @@ window.onload = () => {
                                 showTransactionError(error.message)
                             })
                         }
-                        div.appendChild(withdrawBtn)
+                        div.appendChild(playBtn)
+                        playBtnShown = true;
+
+                        const wei = await service.amountWithdrawable()
+                        const amount = web3.utils.fromWei(String(wei), 'ether')
+                        if (amount > 0) {
+                            let withdrawBtn = document.createElement('button')
+                            withdrawBtn.innerText = `Withdraw wealth: ${amount} ETH`
+                            withdrawBtn.className = 'withdraw-btn'
+                            withdrawBtn.style = 'margin-left: 20px;'
+                            withdrawBtn.onclick = () => {
+                                const transactionParameters = {
+                                    gasPrice: web3.utils.numberToHex(web3.utils.toWei('50', 'gwei')),
+                                    gas: web3.utils.numberToHex(1000000),
+                                    to: contractAddress,
+                                    from: ethereum.selectedAddress,
+                                    data: service.withdrawHex
+                                }
+
+                                ethereum.request({
+                                    method: 'eth_sendTransaction',
+                                    params: [transactionParameters]
+                                }).then(hash => {
+                                    showTransactionHash(hash)
+                                }).catch(error => {
+                                    showTransactionError(error.message)
+                                })
+                            }
+                            div.appendChild(withdrawBtn)
+                        }
                     }
                 })
         }
